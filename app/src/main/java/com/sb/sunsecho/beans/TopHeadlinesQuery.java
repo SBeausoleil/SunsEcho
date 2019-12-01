@@ -12,7 +12,7 @@ public class TopHeadlinesQuery extends ApiQuery {
      * WARNING: Cannot be mixed with `sources` tag.
      */
     @Nullable
-    protected String country;
+    protected CountryCode country;
     /**
      * The category you want to get headlines for.
      * <p>
@@ -21,7 +21,7 @@ public class TopHeadlinesQuery extends ApiQuery {
     @Nullable
     protected Category category;
 
-    public TopHeadlinesQuery(@Nullable String keywords, @Nullable String inTitle, @Nullable String[] sources, @Nullable String language, @Nullable Integer pageSize, @Nullable Integer page, @Nullable String country, @Nullable Category category) {
+    public TopHeadlinesQuery(@Nullable String keywords, @Nullable String inTitle, @Nullable String[] sources, @Nullable String language, @Nullable Integer pageSize, @Nullable Integer page, @Nullable CountryCode country, @Nullable Category category) {
         super(keywords, inTitle, sources, language, pageSize, page);
         this.country = country;
         this.category = category;
@@ -30,16 +30,16 @@ public class TopHeadlinesQuery extends ApiQuery {
 
     @Override
     protected void completeArguments(Uri.Builder builder) {
-        if (country != null) builder.appendQueryParameter("country", country);
+        if (country != null) builder.appendQueryParameter("country", country.name());
         if (category != null) builder.appendQueryParameter("category", category.name());
     }
 
     @Nullable
-    public String getCountry() {
+    public CountryCode getCountry() {
         return country;
     }
 
-    public void setCountry(@Nullable String country) {
+    public void setCountry(@Nullable CountryCode country) {
         this.country = country;
     }
 
@@ -54,7 +54,7 @@ public class TopHeadlinesQuery extends ApiQuery {
 
 
     public static final class Builder {
-        private String country;
+        private CountryCode country;
         private String keywords;
         private Category category;
         private String inTitle;
@@ -63,7 +63,7 @@ public class TopHeadlinesQuery extends ApiQuery {
         private Integer pageSize;
         private Integer page;
 
-        public Builder withCountry(String country) {
+        public Builder withCountry(CountryCode country) {
             this.country = country;
             return this;
         }
