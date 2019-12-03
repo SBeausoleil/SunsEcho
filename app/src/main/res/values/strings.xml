@@ -16,6 +16,7 @@
     <string name="country_code_cz">Czech Republic</string>
     <string name="country_code_de">Germany</string>
     <string name="country_code_eg">Egypt</string>
+    <string name="country_code_es">Spain</string>
     <string name="country_code_fr">France</string>
     <string name="country_code_gb">United Kingdom</string>
     <string name="country_code_gr">Greece</string>
@@ -25,6 +26,7 @@
     <string name="country_code_ie">Ireland</string>
     <string name="country_code_il">Israel</string>
     <string name="country_code_in">India</string>
+    <string name="country_code_is">Iceland</string>
     <string name="country_code_it">Italy</string>
     <string name="country_code_jp">Japan</string>
     <string name="country_code_kr">South Korea</string>
@@ -38,6 +40,7 @@
     <string name="country_code_no">Norway</string>
     <string name="country_code_nz">New Zealand</string>
     <string name="country_code_ph">Philippines</string>
+    <string name="country_code_pk">Pakistan</string>
     <string name="country_code_pl">Poland</string>
     <string name="country_code_pt">Portugal</string>
     <string name="country_code_ro">Romania</string>
@@ -55,4 +58,19 @@
     <string name="country_code_us">United States</string>
     <string name="country_code_ve">Venezuela</string>
     <string name="country_code_za">South Africa</string>
+    <string name="country_code_zh">Chinese Ethnicity Related</string>
+
+    <string name="language_code_ar">Arabic</string>
+    <string name="language_code_de">German</string>
+    <string name="language_code_en">English</string>
+    <string name="language_code_es">Spanish</string>
+    <string name="language_code_fr">French</string>
+    <string name="language_code_hr">Hebrew</string>
+    <string name="language_code_it">Italian</string>
+    <string name="language_code_nl">Dutch</string>
+    <string name="language_code_no">Norwegian</string>
+    <string name="language_code_pt">Portuguese</string>
+    <string name="language_code_ru">Russian</string>
+    <string name="language_code_se">Northern Sami</string>
+    <string name="language_code_zh">Zhōngwén</string>
 </resources>

@@ -14,10 +14,6 @@ public class SourceFetcher extends AsyncTask<Void, Void, Source[]> {
 
     @Override
     protected Source[] doInBackground(Void... voids) {
-        Source[] sources = client.sources();
-        for (Source s : sources) {
-            System.out.println(s);
-        }
-        return sources;
+        return client.sources();
     }
 }

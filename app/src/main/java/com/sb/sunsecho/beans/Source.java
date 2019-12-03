@@ -16,14 +16,14 @@ public class Source {
     private URL url;
     private Category category;
     private String language;
-    private CountryCode country;
+    private String country;
 
     public Source(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Source(@Nullable String id, @NonNull String name, String description, URL url, Category category, String language, CountryCode country) {
+    public Source(@Nullable String id, @NonNull String name, String description, URL url, Category category, String language, String country) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -11,11 +11,11 @@ public class SourceQuery implements QueryArguments {
     @Nullable
     private String language;
     @Nullable
-    private CountryCode country;
+    private String country;
 
     public SourceQuery() {}
 
-    public SourceQuery(Category category, String language, CountryCode country) {
+    public SourceQuery(Category category, String language, String country) {
         this.category = category;
         this.language = language;
         this.country = country;
@@ -37,22 +37,26 @@ public class SourceQuery implements QueryArguments {
         this.language = language;
     }
 
-    public CountryCode getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(CountryCode country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
     @Override
-    public void toUrlArguments(Uri.Builder builder) {
+    public Uri.Builder toUrlArguments(Uri.Builder builder) {
+        if (category != null) builder.appendQueryParameter("category", category.name());
+        if (language != null) builder.appendQueryParameter("language", language);
+        if (country != null) builder.appendQueryParameter("country", country);
+        return builder;
     }
 
     public static final class Builder {
         protected Category category;
         private String language;
-        private CountryCode country;
+        private String country;
 
         private Builder() {
         }
@@ -71,7 +75,7 @@ public class SourceQuery implements QueryArguments {
             return this;
         }
 
-        public Builder withCountry(CountryCode country) {
+        public Builder withCountry(String country) {
             this.country = country;
             return this;
         }

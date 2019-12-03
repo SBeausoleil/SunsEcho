@@ -110,7 +110,7 @@ public abstract class ApiQuery implements QueryArguments {
     }
 
     @Override
-    public void toUrlArguments(Uri.Builder builder) {
+    public Uri.Builder toUrlArguments(Uri.Builder builder) {
         if (keywords != null) builder.appendQueryParameter("q", keywords);
         if (inTitle != null) builder.appendQueryParameter("qInTitle", inTitle);
         if (sources != null && sources.length != 0) builder.appendQueryParameter("sources", String.join(",", sources));
@@ -118,6 +118,7 @@ public abstract class ApiQuery implements QueryArguments {
         if (pageSize != null) builder.appendQueryParameter("page_size ", pageSize.toString());
         if (page != null) builder.appendQueryParameter("page", page.toString());
         completeArguments(builder);
+        return builder;
     }
 
     /**
