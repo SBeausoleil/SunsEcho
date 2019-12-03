@@ -1,11 +1,15 @@
 package com.sb.sunsecho.services;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.sb.sunsecho.SourcesReceiver;
 import com.sb.sunsecho.beans.Source;
 
+import java.util.ArrayList;
+
 public class SourceFetcher extends AsyncTask<Void, Void, Source[]> {
+    private static final String TAG = SourceFetcher.class.getCanonicalName();
 
     private NewsApiClient client;
     private SourcesReceiver receiver;

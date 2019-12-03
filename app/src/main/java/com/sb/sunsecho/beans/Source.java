@@ -3,6 +3,7 @@ package com.sb.sunsecho.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 
@@ -40,6 +41,12 @@ public class Source implements Parcelable {
         id = in.readString();
         name = in.readString();
         description = in.readString();
+        try {
+            url = new URL(in.readString());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        category = in.readParcelable(Category.class.getClassLoader());
         language = in.readString();
         country = in.readString();
     }
@@ -49,6 +56,8 @@ public class Source implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(description);
+        dest.writeString(url.toString());
+        dest.writeParcelable(category, 0);
         dest.writeString(language);
         dest.writeString(country);
     }

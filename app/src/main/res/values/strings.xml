@@ -65,13 +65,16 @@
     <string name="language_code_en">English</string>
     <string name="language_code_es">Spanish</string>
     <string name="language_code_fr">French</string>
-    <string name="language_code_hr">Hebrew</string>
+    <string name="language_code_he">Hebrew</string>
+    <string name="language_code_hr">Croatian</string>
     <string name="language_code_it">Italian</string>
     <string name="language_code_nl">Dutch</string>
     <string name="language_code_no">Norwegian</string>
     <string name="language_code_pt">Portuguese</string>
     <string name="language_code_ru">Russian</string>
     <string name="language_code_se">Northern Sami</string>
+    <string name="language_code_ud">Urdu</string> <!-- https://arynews.tv/ud/ has the wrong language code. This is to hide their mistake that we receive over News API. -->
+    <string name="language_code_ur">Urdu</string> <!-- This is the right code for Urdu -->
     <string name="language_code_zh">Zhōngwén</string>
 
     <string name="title_activity_search">Search articles</string>
@@ -87,6 +90,11 @@
     <string name="language">Language</string>
     <string name="page_size">Elements per page</string>
     <string name="page">Page</string>
+    <string name="search">Search</string>
+    <string name="country">Country</string>
+    <string name="category">Category</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

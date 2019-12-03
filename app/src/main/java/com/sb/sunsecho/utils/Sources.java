@@ -65,6 +65,10 @@ public class Sources {
         return sourcesById.values();
     }
 
+    public Source[] toArray() {
+        return sourcesById.values().toArray(new Source[sourcesById.size()]);
+    }
+
     public Set<Map.Entry<String, Source>> entrySet() {
         return sourcesById.entrySet();
     }
