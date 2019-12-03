@@ -2,8 +2,6 @@ package com.sb.sunsecho.services;
 
 import android.content.res.Resources;
 
-import com.sb.sunsecho.beans.CountryCode;
-
 public class CountryCodeService {
 
     /**
@@ -14,7 +12,7 @@ public class CountryCodeService {
      * @param packageName
      * @return the localized name of the country code, the country code if no localization has been found.
      */
-    public String localizedCountryName(String countryCode, Resources res, String packageName) {
+    public static String localizedCountryName(String countryCode, Resources res, String packageName) {
         int identifier = res.getIdentifier("country_code_" + countryCode, "string", packageName);
         if (identifier != 0)
             return res.getString(identifier);

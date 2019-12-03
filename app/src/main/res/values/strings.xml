@@ -73,4 +73,10 @@
     <string name="language_code_ru">Russian</string>
     <string name="language_code_se">Northern Sami</string>
     <string name="language_code_zh">Zhōngwén</string>
+
+    <string name="title_activity_search">Search articles</string>
+    <string-array name="search_types">
+        <item>Top Headlines</item>
+        <item>Everything</item>
+    </string-array>
 </resources>

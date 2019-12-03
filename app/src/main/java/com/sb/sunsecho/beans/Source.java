@@ -1,12 +1,15 @@
 package com.sb.sunsecho.beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.net.URL;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class Source {
+public class Source implements Parcelable {
     @Nullable
     private String id;
     @NonNull
@@ -33,6 +36,40 @@ public class Source {
         this.country = country;
     }
 
+    protected Source(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        description = in.readString();
+        language = in.readString();
+        country = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(language);
+        dest.writeString(country);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Source> CREATOR = new Creator<Source>() {
+        @Override
+        public Source createFromParcel(Parcel in) {
+            return new Source(in);
+        }
+
+        @Override
+        public Source[] newArray(int size) {
+            return new Source[size];
+        }
+    };
+
     public String getId() {
         return id;
     }
@@ -47,6 +84,46 @@ public class Source {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public URL getUrl() {
+        return url;
+    }
+
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override
