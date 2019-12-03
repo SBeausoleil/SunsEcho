@@ -1,9 +1,14 @@
 package com.sb.sunsecho.utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.sb.sunsecho.beans.Source;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -28,6 +33,16 @@ public class Sources {
 
     public Source getById(String id) {
         return sourcesById.get(id);
+    }
+
+    /**
+     * Return a set of all the unique languages of the sources.
+     * @return a set of all the unique languages of the sources.
+     */
+    public HashSet<String> languages() {
+        HashSet<String> languages = new HashSet<>();
+        sourcesById.values().forEach((source -> languages.add(source.getLanguage())));
+        return languages;
     }
 
     public void forEach(@NonNull BiConsumer<? super String, ? super Source> action) {

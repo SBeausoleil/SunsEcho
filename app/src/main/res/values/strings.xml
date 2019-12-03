@@ -79,4 +79,15 @@
         <item>Top Headlines</item>
         <item>Everything</item>
     </string-array>
+
+    <string name="keywords">Keyword(s)</string>
+    <string name="in_title">In title</string>
+    <string name="sources">Sources</string>
+    <string name="excluded_sources">Excluded sources</string>
+    <string name="language">Language</string>
+    <string name="page_size">Elements per page</string>
+    <string name="page">Page</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

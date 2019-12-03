@@ -126,4 +126,48 @@ public abstract class ApiQuery implements QueryArguments {
      * @param builder
      */
     protected abstract void completeArguments(Uri.Builder builder);
+
+    public static abstract class Builder {
+        protected String keywords;
+        protected String inTitle;
+        protected String[] sources;
+        protected String language = defaultLanguage;
+        protected Integer pageSize;
+        protected Integer page;
+
+        public Builder() {
+        }
+
+        public Builder withKeywords(String keywords) {
+            this.keywords = keywords;
+            return this;
+        }
+
+        public Builder withInTitle(String inTitle) {
+            this.inTitle = inTitle;
+            return this;
+        }
+
+        public Builder withSources(String[] sources) {
+            this.sources = sources;
+            return this;
+        }
+
+        public Builder withLanguage(String language) {
+            this.language = language;
+            return this;
+        }
+
+        public Builder withPageSize(Integer pageSize) {
+            this.pageSize = pageSize;
+            return this;
+        }
+
+        public Builder withPage(Integer page) {
+            this.page = page;
+            return this;
+        }
+
+        public abstract ApiQuery build();
+    }
 }

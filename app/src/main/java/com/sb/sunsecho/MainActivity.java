@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void afterReceivingSources(Source[] received) {
-        this.sources = new Sources(received);
+        //this.sources = new Sources(received);
         /*System.out.println("Received " + received.length + " sources.");
         sources.forEach((id, source) -> {
-            System.out.println(id + " : " + source.getName() + ", from: " + CountryCodeService.localizedCountryName(source.getCountry(), getResources(), getPackageName()));
+            System.out.println(id + " : " + source.getName() + ", from: " + CountryCodeService.localizedLanguageName(source.getCountry(), getResources(), getPackageName()));
         });*/
         Intent i = new Intent(this, SearchActivity.class);
         i.putExtra(SearchActivity.SOURCES, received);

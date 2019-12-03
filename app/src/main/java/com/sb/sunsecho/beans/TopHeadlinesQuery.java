@@ -53,53 +53,17 @@ public class TopHeadlinesQuery extends ApiQuery {
     }
 
 
-    public static final class Builder {
+    public static final class Builder extends ApiQuery.Builder {
         private String country;
-        private String keywords;
         private Category category;
-        private String inTitle;
-        private String[] sources;
-        private String language = ApiQuery.defaultLanguage;
-        private Integer pageSize;
-        private Integer page;
 
         public Builder withCountry(String country) {
             this.country = country;
             return this;
         }
 
-        public Builder withKeywords(String keywords) {
-            this.keywords = keywords;
-            return this;
-        }
-
         public Builder withCategory(Category category) {
             this.category = category;
-            return this;
-        }
-
-        public Builder withInTitle(String inTitle) {
-            this.inTitle = inTitle;
-            return this;
-        }
-
-        public Builder withSources(String[] sources) {
-            this.sources = sources;
-            return this;
-        }
-
-        public Builder withLanguage(String language) {
-            this.language = language;
-            return this;
-        }
-
-        public Builder withPageSize(Integer pageSize) {
-            this.pageSize = pageSize;
-            return this;
-        }
-
-        public Builder withPage(Integer page) {
-            this.page = page;
             return this;
         }
 
