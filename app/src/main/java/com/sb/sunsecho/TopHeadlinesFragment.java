@@ -7,19 +7,23 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.sb.sunsecho.beans.ApiQuery;
+import com.sb.sunsecho.beans.Category;
 import com.sb.sunsecho.beans.TopHeadlinesQuery;
+import com.sb.sunsecho.services.CategoryService;
 import com.sb.sunsecho.services.CountryCodeService;
+import com.sb.sunsecho.utils.Maps;
 import com.sb.sunsecho.utils.Sources;
+import com.sb.sunsecho.utils.Spinners;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import androidx.fragment.app.Fragment;
 
-public class TopHeadlinesFragment extends Fragment implements Supplier<TopHeadlinesQuery> {
+public class TopHeadlinesFragment extends Fragment implements Supplier<ApiQuery.Builder> {
     private static final String TAG = TopHeadlinesQuery.class.getCanonicalName();
 
     private static final String COUNTRIES = "countries";
@@ -31,6 +35,10 @@ public class TopHeadlinesFragment extends Fragment implements Supplier<TopHeadli
      * Value: Country code
      */
     private LinkedHashMap<String, String> localizedCountries;
+    private Spinner country;
+
+    private LinkedHashMap<String, Category> localizedCategories;
+    private Spinner category;
 
     public TopHeadlinesFragment() {
     }
@@ -64,30 +72,36 @@ public class TopHeadlinesFragment extends Fragment implements Supplier<TopHeadli
     }
 
     private void initializeCategoriesSpinner(View v) {
-        
-        Spinner categoriesSpinner = v.findViewById(R.id.category);
+        category = v.findViewById(R.id.category);
+        Category[] arr = Category.values();
+        localizedCategories = new LinkedHashMap<>(arr.length);
+        for (Category category : arr)
+            localizedCategories.put(CategoryService.localize(category, getResources()), category);
+        localizedCategories = Maps.sort(localizedCategories, Map.Entry.comparingByValue());
+        Spinners.prepareSpinner(category, getContext(), localizedCategories, getString(R.string.no_category));
     }
 
     private void initializeCountriesSpinner(View v) {
+        country = v.findViewById(R.id.country);
         localizedCountries = new LinkedHashMap<>(countries.length);
         for (String c : countries)
-            localizedCountries.put(CountryCodeService.localizedCountryName(c, getResources(), null), c);
-        sortCountriesByLocalization();
-        String[] localized = localizedCountries.keySet().toArray(new String[localizedCountries.size()]);
-
-        Spinner countriesSpinner = v.findViewById(R.id.country);
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, localized);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        countriesSpinner.setAdapter(adapter);
+            localizedCountries.put(CountryCodeService.localizedCountryName(c, getResources(), getActivity().getPackageName()), c);
+        localizedCountries = Maps.sort(localizedCountries, Map.Entry.comparingByKey());
+        Spinners.prepareSpinner(country, getContext(), localizedCountries, getString(R.string.no_country));
     }
 
-    private void sortCountriesByLocalization() {
-        localizedCountries = localizedCountries.entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
+    public String selectedCountryCode() {
+        return localizedCountries.get(country.getSelectedItem());
+    }
+
+    public Category selectedCategory() {
+        return localizedCategories.get(category.getSelectedItem());
     }
 
     @Override
-    public TopHeadlinesQuery get() {
-        return null; // TODO
+    public TopHeadlinesQuery.Builder get() {
+        return new TopHeadlinesQuery.Builder()
+                .withCountry(selectedCountryCode())
+                .withCategory(selectedCategory());
     }
 }

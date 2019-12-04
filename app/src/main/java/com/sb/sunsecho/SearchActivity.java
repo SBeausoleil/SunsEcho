@@ -6,18 +6,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 
+import com.sb.sunsecho.beans.ApiQuery;
 import com.sb.sunsecho.beans.Source;
 import com.sb.sunsecho.services.LanguageCodeService;
+import com.sb.sunsecho.utils.Maps;
 import com.sb.sunsecho.utils.Sources;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class SearchActivity extends AppCompatActivity {
     private static final String TAG = SearchActivity.class.getCanonicalName();
@@ -35,6 +42,8 @@ public class SearchActivity extends AppCompatActivity {
      * Value: the languageCode
      */
     private LinkedHashMap<String, String> languages;
+
+    private Supplier<ApiQuery.Builder> searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +71,18 @@ public class SearchActivity extends AppCompatActivity {
         searchTypeSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, view.toString());
                 switch (position) {
                     case TOP_HEADLINES_INDEX:
                         Log.d(TAG, "Top headlines selected");
+                        if (!(searchFragment instanceof TopHeadlinesFragment)) {
+                            Log.i(TAG, "New Top Headlines Fragment");
+                            searchFragment = TopHeadlinesFragment.newInstance(sources);
+                            replaceSearchFragment((Fragment) searchFragment);
+                        }
                         break;
                     case EVERYTHING_INDEX:
                         Log.d(TAG, "Everything selected");
+                        //replaceSearchFragment(GeneralQueryFragment.newInstance(sources));
                         break;
                     default:
                         throw new IllegalArgumentException("Position " + position + " is not recognized.");
@@ -76,27 +90,27 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
+    }
+
+    private void replaceSearchFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.search_frame, fragment);
+        transaction.commit();
     }
 
     private void initializeLanguageSpinner() {
         HashSet<String> languageCodes = sources.languages();
         this.languages = new LinkedHashMap<>(languageCodes.size());
         languageCodes.forEach(language -> this.languages.put(LanguageCodeService.localizedLanguageName(language, getResources(), getPackageName()), language));
-        sortLanguagesByLocalization();
+        languages = Maps.sort(languages, Map.Entry.comparingByKey());
 
         String[] sortedLanguages = languages.keySet().toArray(new String[languages.size()]);
         Spinner searchTypeSelector = findViewById(R.id.language);
         ArrayAdapter<CharSequence> languagesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, sortedLanguages);
         languagesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchTypeSelector.setAdapter(languagesAdapter);
-    }
-
-    private void sortLanguagesByLocalization() {
-        // From https://www.javacodegeeks.com/2017/09/java-8-sorting-hashmap-values-ascending-descending-order.html
-        this.languages = this.languages.entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
     }
 }

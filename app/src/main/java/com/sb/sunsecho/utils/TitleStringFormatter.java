@@ -2,7 +2,7 @@ package com.sb.sunsecho.utils;
 
 public class TitleStringFormatter {
 
-    public String format(String toFormat) {
+    public static String format(String toFormat) {
         char[] chars = toFormat.toCharArray();
         StringBuilder builder = new StringBuilder(chars.length);
 

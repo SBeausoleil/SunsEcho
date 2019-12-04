@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Suns Echo</string>
 
+    <string name="no_country">Country (optional)</string>
     <string name="country_code_ae">United Arab Emirates</string>
     <string name="country_code_ar">Argentina</string>
     <string name="country_code_at">Austria</string>
@@ -58,8 +59,9 @@
     <string name="country_code_us">United States</string>
     <string name="country_code_ve">Venezuela</string>
     <string name="country_code_za">South Africa</string>
-    <string name="country_code_zh">Chinese Ethnicity Related</string>
+    <string name="country_code_zh">Hans Ethnicity Related</string>
 
+    <string name="no_language">Language (optional)</string>
     <string name="language_code_ar">Arabic</string>
     <string name="language_code_de">German</string>
     <string name="language_code_en">English</string>
@@ -76,6 +78,15 @@
     <string name="language_code_ud">Urdu</string> <!-- https://arynews.tv/ud/ has the wrong language code. This is to hide their mistake that we receive over News API. -->
     <string name="language_code_ur">Urdu</string> <!-- This is the right code for Urdu -->
     <string name="language_code_zh">Zhōngwén</string>
+
+    <string name="no_category">Category (optional)</string>
+    <string name="category_business">Business</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_general">General</string>
+    <string name="category_health">Health</string>
+    <string name="category_science">Science</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_technology">Technology</string>
 
     <string name="title_activity_search">Search articles</string>
     <string-array name="search_types">
