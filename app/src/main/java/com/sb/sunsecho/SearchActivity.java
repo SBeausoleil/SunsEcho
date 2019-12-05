@@ -6,27 +6,31 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.Spinner;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.sb.sunsecho.beans.ApiQuery;
+import com.sb.sunsecho.beans.Article;
 import com.sb.sunsecho.beans.Source;
 import com.sb.sunsecho.services.LanguageCodeService;
 import com.sb.sunsecho.utils.Maps;
 import com.sb.sunsecho.utils.Sources;
+import com.sb.sunsecho.utils.Spinners;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements ArticlesReceiver {
     private static final String TAG = SearchActivity.class.getCanonicalName();
 
     public static final int REQUEST_CODE = 100;
@@ -43,24 +47,40 @@ public class SearchActivity extends AppCompatActivity {
      */
     private LinkedHashMap<String, String> languages;
 
-    private Supplier<ApiQuery.Builder> searchFragment;
+    private ApiQueryBuildingInterface searchFragment;
+
+    private Button search;
+    private Spinner language;
+    private TextInputEditText inTitle;
+    private TextInputEditText keywords;
+    private TextInputEditText pageSize;
+    private TextInputEditText page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        makeSources(getIntent().getParcelableArrayExtra(SOURCES));
+        sources = Sources.makeSources(getIntent().getParcelableArrayExtra(SOURCES));
 
         initializeSearchTypeSpinner();
         initializeLanguageSpinner();
-    }
 
-    private void makeSources(Parcelable[] sourcesParcel) {
-        Source[] arr = new Source[sourcesParcel.length];
-        for (int i = 0; i < sourcesParcel.length; i++)
-            arr[i] = (Source) sourcesParcel[i];
-        this.sources = new Sources(arr);
+        inTitle = findViewById(R.id.in_title);
+        keywords = findViewById(R.id.keywords);
+        pageSize = findViewById(R.id.page_size);
+        page = findViewById(R.id.page);
+
+        search = findViewById(R.id.search);
+        search.setOnClickListener(view -> {
+            ApiQuery.Builder builder = searchFragment.builder()
+                    .withLanguage(getSelectedLanguage())
+                    .withInTitle(getInTitle())
+                    .withKeywords(getKeywords())
+                    .withPageSize(getPageSize())
+                    .withPage(getPage());
+            searchFragment.articlesAsyncSupplier(this).accept(builder.build());
+        });
     }
 
     private void initializeSearchTypeSpinner() {
@@ -84,7 +104,7 @@ public class SearchActivity extends AppCompatActivity {
                         Log.d(TAG, "Everything selected");
                         if (!(searchFragment instanceof GeneralQueryFragment)) {
                             Log.i(TAG, "New General Query Fragment!");
-                            searchFragment = GeneralQueryFragment.newInstance();
+                            searchFragment = GeneralQueryFragment.newInstance(sources.toArray());
                             replaceSearchFragment((Fragment) searchFragment);
                         }
                         break;
@@ -105,16 +125,38 @@ public class SearchActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public String getSelectedLanguage() {
+        return languages.get(language.getSelectedItem());
+    }
+
+    public String getInTitle() {
+        return inTitle.getText().length() != 0 ? inTitle.getText().toString() : null;
+    }
+
+    public String getKeywords() {
+        return keywords.getText().length() != 0 ? keywords.getText().toString() : null;
+    }
+
+    public Integer getPageSize() {
+        return pageSize.getText().length() != 0 ? Integer.parseInt(pageSize.getText().toString()) : null;
+    }
+
+    public Integer getPage() {
+        return page.getText().length() != 0 ? Integer.parseInt(page.getText().toString()) : null;
+    }
+
     private void initializeLanguageSpinner() {
         HashSet<String> languageCodes = sources.languages();
         this.languages = new LinkedHashMap<>(languageCodes.size());
         languageCodes.forEach(language -> this.languages.put(LanguageCodeService.localizedLanguageName(language, getResources(), getPackageName()), language));
         languages = Maps.sort(languages, Map.Entry.comparingByKey());
+        this.language = findViewById(R.id.language);
+        Spinners.prepareSpinner(language, getApplicationContext(), languages, getString(R.string.no_language));
+    }
 
-        String[] sortedLanguages = languages.keySet().toArray(new String[languages.size()]);
-        Spinner searchTypeSelector = findViewById(R.id.language);
-        ArrayAdapter<CharSequence> languagesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, sortedLanguages);
-        languagesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        searchTypeSelector.setAdapter(languagesAdapter);
+    @Override
+    public void receive(Article[] articles) {
+        List<Article> articleList = Arrays.asList(articles);
+        articleList.forEach(article -> System.out.println(article));
     }
 }

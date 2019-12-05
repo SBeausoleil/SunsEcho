@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -35,6 +36,12 @@ public class NewsApiClient {
     public static final Uri SOURCES = makeSourceUri();
     public static final Uri TOP_HEADLINES = makeTopHeadlinesUri();
     public static final Uri EVERYTHING = makeEverythingUri();
+
+    private static NewsApiClient instance;
+
+    public static NewsApiClient getInstance() {
+        return instance;
+    }
 
     private static Uri makeSourceUri() {
         // https://newsapi.org/v2/sources
@@ -61,6 +68,7 @@ public class NewsApiClient {
 
     public NewsApiClient(String key) {
         this.key = key;
+        instance = this;
     }
 
     public Source[] sources() {
@@ -118,7 +126,7 @@ public class NewsApiClient {
                     current.getString("description"),
                     url,
                     image,
-                    Instant.parse(current.getString("publishedAt")),
+                    ZonedDateTime.parse(current.getString("publishedAt")),
                     current.getString("content"));
         }
         return articles;

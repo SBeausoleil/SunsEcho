@@ -12,6 +12,8 @@ import com.sb.sunsecho.beans.Category;
 import com.sb.sunsecho.beans.TopHeadlinesQuery;
 import com.sb.sunsecho.services.CategoryService;
 import com.sb.sunsecho.services.CountryCodeService;
+import com.sb.sunsecho.services.NewsApiClient;
+import com.sb.sunsecho.services.TopHeadlinesFetcher;
 import com.sb.sunsecho.utils.Maps;
 import com.sb.sunsecho.utils.Sources;
 import com.sb.sunsecho.utils.Spinners;
@@ -19,14 +21,16 @@ import com.sb.sunsecho.utils.Spinners;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import androidx.fragment.app.Fragment;
 
-public class TopHeadlinesFragment extends Fragment implements Supplier<ApiQuery.Builder> {
+public class TopHeadlinesFragment extends Fragment implements ApiQueryBuildingInterface<TopHeadlinesQuery> {
     private static final String TAG = TopHeadlinesQuery.class.getCanonicalName();
 
     private static final String COUNTRIES = "countries";
+    private static final String SOURCES = "sources";
 
     private String[] countries;
     /**
@@ -40,6 +44,8 @@ public class TopHeadlinesFragment extends Fragment implements Supplier<ApiQuery.
     private LinkedHashMap<String, Category> localizedCategories;
     private Spinner category;
 
+    private Sources sources;
+
     public TopHeadlinesFragment() {
     }
 
@@ -51,6 +57,7 @@ public class TopHeadlinesFragment extends Fragment implements Supplier<ApiQuery.
         TopHeadlinesFragment fragment = new TopHeadlinesFragment();
         Bundle args = new Bundle();
         args.putStringArray(COUNTRIES, countries);
+        args.putParcelableArray(SOURCES, sources.toArray());
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,6 +66,7 @@ public class TopHeadlinesFragment extends Fragment implements Supplier<ApiQuery.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         countries = getArguments().getStringArray(COUNTRIES);
+        sources = Sources.makeSources(getArguments().getParcelableArray(SOURCES));
     }
 
     @Override
@@ -99,9 +107,14 @@ public class TopHeadlinesFragment extends Fragment implements Supplier<ApiQuery.
     }
 
     @Override
-    public TopHeadlinesQuery.Builder get() {
+    public TopHeadlinesQuery.Builder builder() {
         return new TopHeadlinesQuery.Builder()
                 .withCountry(selectedCountryCode())
                 .withCategory(selectedCategory());
+    }
+
+    @Override
+    public Consumer<TopHeadlinesQuery> articlesAsyncSupplier(ArticlesReceiver receiver) {
+        return new TopHeadlinesFetcher(NewsApiClient.getInstance(), sources, receiver);
     }
 }

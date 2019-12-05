@@ -2,6 +2,7 @@ package com.sb.sunsecho.beans;
 
 import java.net.URL;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 
 public class Article {
 
@@ -11,10 +12,10 @@ public class Article {
     private String description;
     private URL url;
     private URL image;
-    private Instant publishedAt;
+    private ZonedDateTime publishedAt;
     private String content;
 
-    public Article(Source source, String author, String title, String description, URL url, URL image, Instant publishedAt, String content) {
+    public Article(Source source, String author, String title, String description, URL url, URL image, ZonedDateTime publishedAt, String content) {
         this.source = source;
         this.author = author;
         this.title = title;
@@ -73,11 +74,11 @@ public class Article {
         this.image = image;
     }
 
-    public Instant getPublishedAt() {
+    public ZonedDateTime getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(Instant publishedAt) {
+    public void setPublishedAt(ZonedDateTime publishedAt) {
         this.publishedAt = publishedAt;
     }
 
@@ -87,5 +88,19 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "source=" + source +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", url=" + url +
+                ", image=" + image +
+                ", publishedAt=" + publishedAt +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

@@ -72,4 +72,11 @@ public class Sources {
     public Set<Map.Entry<String, Source>> entrySet() {
         return sourcesById.entrySet();
     }
+
+    public static Sources makeSources(Parcelable[] sourcesParcel) {
+        Source[] arr = new Source[sourcesParcel.length];
+        for (int i = 0; i < sourcesParcel.length; i++)
+            arr[i] = (Source) sourcesParcel[i];
+        return new Sources(arr);
+    }
 }

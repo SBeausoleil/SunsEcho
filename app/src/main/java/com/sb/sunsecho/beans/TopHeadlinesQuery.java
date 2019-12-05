@@ -27,7 +27,6 @@ public class TopHeadlinesQuery extends ApiQuery {
         this.category = category;
     }
 
-
     @Override
     protected void completeArguments(Uri.Builder builder) {
         if (country != null) builder.appendQueryParameter("country", country);
@@ -52,7 +51,6 @@ public class TopHeadlinesQuery extends ApiQuery {
         this.category = category;
     }
 
-
     public static final class Builder extends ApiQuery.Builder {
         private String country;
         private Category category;
@@ -67,6 +65,7 @@ public class TopHeadlinesQuery extends ApiQuery {
             return this;
         }
 
+        @Override
         public TopHeadlinesQuery build() {
             return new TopHeadlinesQuery(keywords, inTitle, sources, language, pageSize, page, country, category);
         }

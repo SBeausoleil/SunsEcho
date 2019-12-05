@@ -13,16 +13,23 @@ import android.widget.Spinner;
 import com.sb.sunsecho.beans.ApiQuery;
 import com.sb.sunsecho.beans.GeneralQuery;
 import com.sb.sunsecho.beans.SortBy;
+import com.sb.sunsecho.beans.Source;
+import com.sb.sunsecho.services.GeneralArticlesFetcher;
+import com.sb.sunsecho.services.NewsApiClient;
 import com.sb.sunsecho.services.SortByService;
 import com.sb.sunsecho.utils.Maps;
+import com.sb.sunsecho.utils.Sources;
 import com.sb.sunsecho.utils.Spinners;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class GeneralQueryFragment extends Fragment implements Supplier<ApiQuery.Builder> {
+public class GeneralQueryFragment extends Fragment implements ApiQueryBuildingInterface<GeneralQuery> {
+
+    private static final String SOURCES = "sources";
 
     private EditText from;
     private EditText to;
@@ -30,11 +37,23 @@ public class GeneralQueryFragment extends Fragment implements Supplier<ApiQuery.
     private LinkedHashMap<String, SortBy> localizedSortBy;
     private Spinner sortBy;
 
+    private Sources sources;
+
     public GeneralQueryFragment() {
     }
 
-    public static GeneralQueryFragment newInstance() {
-        return new GeneralQueryFragment();
+    public static GeneralQueryFragment newInstance(Source[] sources) {
+        GeneralQueryFragment fragment = new GeneralQueryFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArray(SOURCES, sources);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sources = Sources.makeSources(getArguments().getParcelableArray(SOURCES));
     }
 
     @Override
@@ -63,10 +82,23 @@ public class GeneralQueryFragment extends Fragment implements Supplier<ApiQuery.
     }
 
     @Override
-    public GeneralQuery.Builder get() {
+    public GeneralQuery.Builder builder() {
         return new GeneralQuery.Builder()
-                .withFrom(Instant.parse(from.getText().toString()))
-                .withTo(Instant.parse(to.getText().toString()))
+                .withFrom(getFrom())
+                .withTo(getTo())
                 .withSortBy(selectedSort());
+    }
+
+    public Instant getFrom() {
+        return from.getText().length() != 0 ? Instant.parse(from.getText().toString()) : null;
+    }
+
+    public Instant getTo() {
+        return to.getText().length() != 0 ? Instant.parse(to.getText().toString()) : null;
+    }
+
+    @Override
+    public Consumer<GeneralQuery> articlesAsyncSupplier(ArticlesReceiver receiver) {
+        return new GeneralArticlesFetcher(NewsApiClient.getInstance(), sources, receiver);
     }
 }

@@ -131,6 +131,7 @@ public class GeneralQuery extends ApiQuery {
             return this;
         }
 
+        @Override
         public GeneralQuery build() {
             return new GeneralQuery(keywords, inTitle, sources, language, pageSize, page, domains, excludeDomains, from, to, sortBy);
         }
