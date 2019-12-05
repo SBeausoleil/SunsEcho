@@ -82,7 +82,11 @@ public class SearchActivity extends AppCompatActivity {
                         break;
                     case EVERYTHING_INDEX:
                         Log.d(TAG, "Everything selected");
-                        //replaceSearchFragment(GeneralQueryFragment.newInstance(sources));
+                        if (!(searchFragment instanceof GeneralQueryFragment)) {
+                            Log.i(TAG, "New General Query Fragment!");
+                            searchFragment = GeneralQueryFragment.newInstance();
+                            replaceSearchFragment((Fragment) searchFragment);
+                        }
                         break;
                     default:
                         throw new IllegalArgumentException("Position " + position + " is not recognized.");

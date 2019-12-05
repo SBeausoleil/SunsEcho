@@ -87,6 +87,11 @@
     <string name="category_science">Science</string>
     <string name="category_sports">Sports</string>
     <string name="category_technology">Technology</string>
+    
+    <string name="no_sort_by">Sort by (optional)</string>
+    <string name="sort_by_relevancy">Relevancy</string>
+    <string name="sort_by_popularity">Popularity</string>
+    <string name="sort_by_published_at">Most recent</string>
 
     <string name="title_activity_search">Search articles</string>
     <string-array name="search_types">

@@ -1,7 +1,5 @@
 package com.sb.sunsecho;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,102 +7,66 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Spinner;
 
+import com.sb.sunsecho.beans.ApiQuery;
+import com.sb.sunsecho.beans.GeneralQuery;
+import com.sb.sunsecho.beans.SortBy;
+import com.sb.sunsecho.services.SortByService;
+import com.sb.sunsecho.utils.Maps;
+import com.sb.sunsecho.utils.Spinners;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GeneralQueryFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GeneralQueryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class GeneralQueryFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class GeneralQueryFragment extends Fragment implements Supplier<ApiQuery.Builder> {
 
-    private OnFragmentInteractionListener mListener;
+    private EditText from;
+    private EditText to;
+
+    private LinkedHashMap<String, SortBy> localizedSortBy;
+    private Spinner sortBy;
 
     public GeneralQueryFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GeneralQueryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GeneralQueryFragment newInstance(String param1, String param2) {
-        GeneralQueryFragment fragment = new GeneralQueryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public static GeneralQueryFragment newInstance() {
+        return new GeneralQueryFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_general_query, container, false);
+        View v = inflater.inflate(R.layout.fragment_general_query, container, false);
+        from = v.findViewById(R.id.from);
+        to = v.findViewById(R.id.to);
+        sortBy = v.findViewById(R.id.sort_by);
+
+        initializeSortBy();
+        return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void initializeSortBy() {
+        SortBy[] arr = SortBy.values();
+        localizedSortBy = new LinkedHashMap<>(arr.length);
+        for (SortBy s : arr)
+            localizedSortBy.put(SortByService.localize(s, getResources()), s);
+        localizedSortBy = Maps.sort(localizedSortBy, Map.Entry.comparingByKey());
+        Spinners.prepareSpinner(sortBy, getContext(), localizedSortBy, getResources().getString(R.string.no_sort_by));
+    }
+
+    public SortBy selectedSort() {
+        return localizedSortBy.get(sortBy.getSelectedItem());
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public GeneralQuery.Builder get() {
+        return new GeneralQuery.Builder()
+                .withFrom(Instant.parse(from.getText().toString()))
+                .withTo(Instant.parse(to.getText().toString()))
+                .withSortBy(selectedSort());
     }
 }
