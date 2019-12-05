@@ -1,10 +1,13 @@
 package com.sb.sunsecho.beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
-public class Article {
+public class Article implements Parcelable {
 
     private Source source;
     private String author;
@@ -25,6 +28,50 @@ public class Article {
         this.publishedAt = publishedAt;
         this.content = content;
     }
+
+    protected Article(Parcel in) {
+        source = in.readParcelable(Source.class.getClassLoader());
+        author = in.readString();
+        title = in.readString();
+        description = in.readString();
+        try {
+            url = new URL(in.readString());
+            image = new URL(in.readString());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        publishedAt = ZonedDateTime.parse(in.readString());
+        content = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(source, flags);
+        dest.writeString(author);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(url.toString());
+        dest.writeString(image.toString());
+        dest.writeString(publishedAt.toString());
+        dest.writeString(content);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Article> CREATOR = new Creator<Article>() {
+        @Override
+        public Article createFromParcel(Parcel in) {
+            return new Article(in);
+        }
+
+        @Override
+        public Article[] newArray(int size) {
+            return new Article[size];
+        }
+    };
 
     public Source getSource() {
         return source;
