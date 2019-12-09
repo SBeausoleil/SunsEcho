@@ -28,6 +28,11 @@ public class TopHeadlinesQuery extends ApiQuery {
     }
 
     @Override
+    protected boolean isChildArgumentsNull() {
+        return country == null && category == null;
+    }
+
+    @Override
     protected void completeArguments(Uri.Builder builder) {
         if (country != null) builder.appendQueryParameter("country", country);
         if (category != null) builder.appendQueryParameter("category", category.name());

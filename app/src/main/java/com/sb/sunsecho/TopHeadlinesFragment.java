@@ -114,7 +114,7 @@ public class TopHeadlinesFragment extends Fragment implements ApiQueryBuildingIn
     }
 
     @Override
-    public Consumer<TopHeadlinesQuery> articlesAsyncSupplier(ArticlesReceiver receiver) {
-        return new TopHeadlinesFetcher(NewsApiClient.getInstance(), sources, receiver);
+    public Consumer<TopHeadlinesQuery> articlesAsyncSupplier(ArticlesReceiver receiver, Consumer<TooBroadQueryException> catcher) {
+        return new TopHeadlinesFetcher(NewsApiClient.getInstance(), sources, receiver, catcher);
     }
 }

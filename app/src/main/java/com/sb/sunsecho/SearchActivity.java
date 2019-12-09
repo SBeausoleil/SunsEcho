@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -77,7 +78,14 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
                     .withKeywords(getKeywords())
                     .withPageSize(getPageSize())
                     .withPage(getPage());
-            searchFragment.articlesAsyncSupplier(this).accept(builder.build());
+
+            searchFragment.articlesAsyncSupplier(this,
+                    (e) -> new AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.too_broad_query_exception_title))
+                            .setMessage(getString(R.string.too_broad_query_exception))
+                            .show())
+                    .accept(builder.build());
+
         });
     }
 
@@ -112,7 +120,8 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -145,7 +154,7 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
         languageCodes.forEach(language -> this.languages.put(LanguageCodeService.localizedLanguageName(language, getResources(), getPackageName()), language));
         languages = Maps.sort(languages, Map.Entry.comparingByKey());
         this.language = findViewById(R.id.language);
-        Spinners.prepareSpinner(language, getApplicationContext(), languages, getString(R.string.no_language));
+        Spinners.prepareSpinner(language, this, languages, getString(R.string.no_language));
     }
 
     @Override

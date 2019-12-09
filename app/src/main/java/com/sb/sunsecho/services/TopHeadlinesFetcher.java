@@ -1,35 +1,47 @@
 package com.sb.sunsecho.services;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.sb.sunsecho.ArticlesReceiver;
+import com.sb.sunsecho.TooBroadQueryException;
 import com.sb.sunsecho.beans.Article;
+import com.sb.sunsecho.beans.AsyncResult;
 import com.sb.sunsecho.beans.TopHeadlinesQuery;
 import com.sb.sunsecho.utils.Sources;
 
 import java.util.function.Consumer;
 
-public class TopHeadlinesFetcher extends AsyncTask<TopHeadlinesQuery, Void, Article[]> implements Consumer<TopHeadlinesQuery> {
+public class TopHeadlinesFetcher extends AsyncTask<TopHeadlinesQuery, Void, AsyncResult<Article[]>> implements Consumer<TopHeadlinesQuery> {
 
     private NewsApiClient client;
     private Sources sources;
     private ArticlesReceiver receiver;
+    private Consumer<TooBroadQueryException> catcher;
 
-    public TopHeadlinesFetcher(NewsApiClient client, Sources sources, ArticlesReceiver receiver) {
+    public TopHeadlinesFetcher(NewsApiClient client, Sources sources, ArticlesReceiver receiver, Consumer<TooBroadQueryException> catcher) {
         this.client = client;
         this.sources = sources;
         this.receiver = receiver;
+        this.catcher = catcher;
     }
 
     @Override
-    protected Article[] doInBackground(TopHeadlinesQuery... query) {
-        return client.topHeadlines(query[0], sources);
+    protected AsyncResult<Article[]> doInBackground(TopHeadlinesQuery... query) {
+        try {
+            return new AsyncResult<>(client.topHeadlines(query[0], sources));
+        } catch (TooBroadQueryException e) {
+            AsyncResult<Article[]> res = new AsyncResult<>(null);
+            res.setException(e);
+            return res;
+        }
     }
 
     @Override
-    protected void onPostExecute(Article[] articles) {
-        receiver.receive(articles);
+    protected void onPostExecute(AsyncResult<Article[]> articles) {
+        if (articles.hasException())
+            catcher.accept((TooBroadQueryException) articles.getException());
+        else
+            receiver.receive(articles.getValue());
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.sb.sunsecho.services;
 import android.net.Uri;
 import android.util.Log;
 
+import com.sb.sunsecho.TooBroadQueryException;
 import com.sb.sunsecho.beans.ApiQuery;
 import com.sb.sunsecho.beans.Article;
 import com.sb.sunsecho.beans.Category;
@@ -87,19 +88,22 @@ public class NewsApiClient {
         }
     }
 
-    public Article[] topHeadlines(TopHeadlinesQuery query, Sources sources) {
+    public Article[] topHeadlines(TopHeadlinesQuery query, Sources sources) throws TooBroadQueryException {
         return articlesApiCall(TOP_HEADLINES, query, sources);
     }
 
-    public Article[] general(GeneralQuery query, Sources sources) {
+    public Article[] general(GeneralQuery query, Sources sources) throws TooBroadQueryException {
         return articlesApiCall(EVERYTHING, query, sources);
     }
 
-    private Article[] articlesApiCall(Uri uri, ApiQuery query, Sources sources) {
+    private Article[] articlesApiCall(Uri uri, ApiQuery query, Sources sources) throws TooBroadQueryException {
+        if (query.isAllArgumentsNull())
+            throw new TooBroadQueryException("At least one of the search query parameters that is not the language, page size or the page must be set!");
+
         try {
             URL url = new URL(query.toUrlArguments(uri.buildUpon()).build().toString());
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setRequestProperty("X-Api-Key", key); // FIXME does not work if no query filters are added
+            connection.setRequestProperty("X-Api-Key", key);
             JSONObject json = new JSONObject(fetch(connection));
             return parseArticles(json, sources);
         } catch (IOException | JSONException e) {

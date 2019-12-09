@@ -104,6 +104,16 @@ public class GeneralQuery extends ApiQuery {
     }
 
     @Override
+    protected boolean isChildArgumentsNull() {
+        return inTitle == null
+                && (domains == null || domains.length == 0)
+                && (excludeDomains == null || excludeDomains.length == 0)
+                && from == null
+                && to == null
+                && sortBy == null;
+    }
+
+    @Override
     protected void completeArguments(Uri.Builder builder) {
         if (inTitle != null) builder.appendQueryParameter("qInTitle", inTitle);
         if (domains != null && domains.length != 0) builder.appendQueryParameter("domains", String.join(",", domains));

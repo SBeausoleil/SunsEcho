@@ -106,6 +106,17 @@ public abstract class ApiQuery implements QueryArguments {
         return builder;
     }
 
+    public boolean isAllArgumentsNull() {
+        return keywords == null
+                && (sources == null || sources.length == 0)
+                && language == null
+                && pageSize == null
+                && page == null
+                && isChildArgumentsNull();
+    }
+
+    protected abstract boolean isChildArgumentsNull();
+
     /**
      * Complete the arguments list of the request.
      * @param builder

@@ -106,7 +106,7 @@ public class GeneralQueryFragment extends Fragment implements ApiQueryBuildingIn
     }
 
     @Override
-    public Consumer<GeneralQuery> articlesAsyncSupplier(ArticlesReceiver receiver) {
-        return new GeneralArticlesFetcher(NewsApiClient.getInstance(), sources, receiver);
+    public Consumer<GeneralQuery> articlesAsyncSupplier(ArticlesReceiver receiver, Consumer<TooBroadQueryException> catcher) {
+        return new GeneralArticlesFetcher(NewsApiClient.getInstance(), sources, receiver, catcher);
     }
 }
