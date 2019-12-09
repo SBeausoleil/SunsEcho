@@ -83,7 +83,6 @@ public class ArticleFragment extends Fragment {
 
     private void refresh() {
         if (article != null) {
-            Log.i(TAG, title != null ? "Not null" : "NULL");
             title.setText(article.getTitle());
             if (article.getSource().getUrl() != null)
                 source.setText(getContext().getResources().getString(R.string.article_source, article.getSource().getName(), article.getSource().getUrl()));
