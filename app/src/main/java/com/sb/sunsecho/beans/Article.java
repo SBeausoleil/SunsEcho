@@ -1,5 +1,6 @@
 package com.sb.sunsecho.beans;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,12 +14,12 @@ public class Article implements Parcelable {
     private String author;
     private String title;
     private String description;
-    private URL url;
+    private Uri url;
     private URL image;
     private ZonedDateTime publishedAt;
     private String content;
 
-    public Article(Source source, String author, String title, String description, URL url, URL image, ZonedDateTime publishedAt, String content) {
+    public Article(Source source, String author, String title, String description, Uri url, URL image, ZonedDateTime publishedAt, String content) {
         this.source = source;
         this.author = author;
         this.title = title;
@@ -37,7 +38,7 @@ public class Article implements Parcelable {
         try {
             String urlString = in.readString();
             if (urlString != null)
-                url = new URL(urlString);
+                url = Uri.parse(urlString);
             String imgString = in.readString();
             if (imgString != null)
                 image = new URL(imgString);
@@ -109,11 +110,11 @@ public class Article implements Parcelable {
         this.description = description;
     }
 
-    public URL getUrl() {
+    public Uri getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(Uri url) {
         this.url = url;
     }
 

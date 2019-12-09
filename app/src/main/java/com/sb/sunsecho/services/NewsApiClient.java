@@ -117,12 +117,13 @@ public class NewsApiClient {
         for (int i = 0; i < articles.length; i++) {
             JSONObject current = array.getJSONObject(i);
             Source source = findSource(current.getJSONObject("source"), sources);
-            URL url = null, image = null;
+            Uri url = null;
+            url = Uri.parse(current.getString("url"));
+            URL image = null;
             try {
-                url = new URL(current.getString("url"));
                 image = new URL(current.getString("urlToImage"));
             } catch (MalformedURLException e) {
-                Log.w(TAG, "Malformed URL: " + current.getString("url"), e);
+                e.printStackTrace();
             }
             articles[i] = new Article(source,
                     current.getString("author"),

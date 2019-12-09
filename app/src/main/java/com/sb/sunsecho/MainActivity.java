@@ -3,6 +3,7 @@ package com.sb.sunsecho;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.sb.sunsecho.beans.Source;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.appBar)));
 
         NewsApiClient client = new NewsApiClient("1eca1ab431204ff19952f3a874e32f1c");
         //SourceFetcher fetcher = new SourceFetcher(client, this::afterReceivingSources);

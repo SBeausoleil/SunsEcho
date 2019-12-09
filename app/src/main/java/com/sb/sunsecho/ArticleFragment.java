@@ -1,11 +1,11 @@
 package com.sb.sunsecho;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +15,9 @@ import android.widget.TextView;
 import com.sb.sunsecho.beans.Article;
 import com.sb.sunsecho.utils.ImageFetcher;
 
-import java.text.DateFormat;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.net.URISyntaxException;
+
+import androidx.fragment.app.Fragment;
 
 
 /**
@@ -93,6 +93,17 @@ public class ArticleFragment extends Fragment {
             description.setText(article.getDescription());
             new ImageFetcher((img) -> image.setImageBitmap(img)).execute(article.getImage());
             content.setText(article.getContent());
+
+            if (article.getUrl() != null) {
+                source.setOnClickListener((v -> {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, article.getUrl());
+                    getActivity().startActivity(browserIntent);
+                }));
+                String text = source.getText().toString();
+                SpannableString span = new SpannableString(text);
+                span.setSpan(new UnderlineSpan(), 0, text.length(), 0);
+                source.setText(span);
+            }
         } else {
             title.setText("");
             source.setText("");
