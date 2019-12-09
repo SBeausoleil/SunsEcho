@@ -12,8 +12,6 @@ import com.sb.sunsecho.beans.Article;
 public class MasterActivity extends AppCompatActivity implements ArticlesListFragment.ArticlePicked {
     public static String ARTICLES = "articles";
 
-    private Article[] articles;
-
     private ArticlesListFragment listFragment;
     private ArticleFragment articleFragment;
 
@@ -22,6 +20,7 @@ public class MasterActivity extends AppCompatActivity implements ArticlesListFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
 
+        Article[] articles;
         if (getIntent().getParcelableArrayExtra(ARTICLES) != null) {
             Parcelable[] arr = getIntent().getParcelableArrayExtra(ARTICLES);
             articles = new Article[arr.length];
@@ -34,23 +33,17 @@ public class MasterActivity extends AppCompatActivity implements ArticlesListFra
         listFragment = ArticlesListFragment.newInstance(articles);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.articles_list, listFragment);
-        articleFragment = ArticleFragment.newInstance(null);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            transaction.replace(R.id.article_fragment, articleFragment);
-        }
         transaction.commit();
     }
 
     @Override
     public void receiveSelectedArticle(Article article) {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            articleFragment = ArticleFragment.newInstance(article);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.addToBackStack(null);
-            transaction.replace(R.id.articles_list, articleFragment);
-            transaction.commit();
-        } else {
-            articleFragment.setArticle(article);
-        }
+        articleFragment = ArticleFragment.newInstance(article);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
+                        R.id.articles_list : R.id.article_fragment,
+                articleFragment);
+        transaction.commit();
     }
 }

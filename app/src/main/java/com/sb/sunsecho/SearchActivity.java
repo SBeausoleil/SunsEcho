@@ -52,7 +52,6 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
 
     private Button search;
     private Spinner language;
-    private TextInputEditText inTitle;
     private TextInputEditText keywords;
     private TextInputEditText pageSize;
     private TextInputEditText page;
@@ -67,7 +66,6 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
         initializeSearchTypeSpinner();
         initializeLanguageSpinner();
 
-        inTitle = findViewById(R.id.in_title);
         keywords = findViewById(R.id.keywords);
         pageSize = findViewById(R.id.page_size);
         page = findViewById(R.id.page);
@@ -76,7 +74,6 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
         search.setOnClickListener(view -> {
             ApiQuery.Builder builder = searchFragment.builder()
                     .withLanguage(getSelectedLanguage())
-                    .withInTitle(getInTitle())
                     .withKeywords(getKeywords())
                     .withPageSize(getPageSize())
                     .withPage(getPage());
@@ -130,10 +127,6 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
         return languages.get(language.getSelectedItem());
     }
 
-    public String getInTitle() {
-        return inTitle.getText().length() != 0 ? inTitle.getText().toString() : null;
-    }
-
     public String getKeywords() {
         return keywords.getText().length() != 0 ? keywords.getText().toString() : null;
     }
@@ -163,6 +156,5 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
         Intent i = new Intent(this, MasterActivity.class);
         i.putExtra(MasterActivity.ARTICLES, articles);
         startActivity(i);
-        finish();
     }
 }

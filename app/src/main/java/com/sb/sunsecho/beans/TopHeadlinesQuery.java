@@ -21,8 +21,8 @@ public class TopHeadlinesQuery extends ApiQuery {
     @Nullable
     protected Category category;
 
-    public TopHeadlinesQuery(@Nullable String keywords, @Nullable String inTitle, @Nullable String[] sources, @Nullable String language, @Nullable Integer pageSize, @Nullable Integer page, @Nullable String country, @Nullable Category category) {
-        super(keywords, inTitle, sources, language, pageSize, page);
+    public TopHeadlinesQuery(@Nullable String keywords, @Nullable String[] sources, @Nullable String language, @Nullable Integer pageSize, @Nullable Integer page, @Nullable String country, @Nullable Category category) {
+        super(keywords, sources, language, pageSize, page);
         this.country = country;
         this.category = category;
     }
@@ -67,7 +67,7 @@ public class TopHeadlinesQuery extends ApiQuery {
 
         @Override
         public TopHeadlinesQuery build() {
-            return new TopHeadlinesQuery(keywords, inTitle, sources, language, pageSize, page, country, category);
+            return new TopHeadlinesQuery(keywords, sources, language, pageSize, page, country, category);
         }
     }
 }

@@ -13,8 +13,6 @@ import com.sb.sunsecho.utils.Sources;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Sources sources;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,5 +32,6 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, SearchActivity.class);
         i.putExtra(SearchActivity.SOURCES, received);
         startActivityForResult(i, SearchActivity.REQUEST_CODE);
+        finish();
     }
 }

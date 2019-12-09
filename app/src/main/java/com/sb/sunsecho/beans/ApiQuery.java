@@ -16,11 +16,7 @@ public abstract class ApiQuery implements QueryArguments {
      */
     @Nullable
     protected String keywords;
-    /**
-     * Keywords or a phrase to search for in the article title and body.
-     */
-    @Nullable
-    protected String inTitle;
+
     /**
      * A list of identifiers for the news sources or blogs the headlines must come from.
      * <p>
@@ -46,9 +42,8 @@ public abstract class ApiQuery implements QueryArguments {
     @Nullable
     protected Integer page;
 
-    public ApiQuery(@Nullable String keywords, @Nullable String inTitle, @Nullable String[] sources, @Nullable String language, @Nullable Integer pageSize, @Nullable Integer page) {
+    public ApiQuery(@Nullable String keywords, @Nullable String[] sources, @Nullable String language, @Nullable Integer pageSize, @Nullable Integer page) {
         this.keywords = keywords;
-        this.inTitle = inTitle;
         this.sources = sources;
         this.language = language;
         this.pageSize = pageSize;
@@ -62,15 +57,6 @@ public abstract class ApiQuery implements QueryArguments {
 
     public void setKeywords(@Nullable String keywords) {
         this.keywords = keywords;
-    }
-
-    @Nullable
-    public String getInTitle() {
-        return inTitle;
-    }
-
-    public void setInTitle(@Nullable String inTitle) {
-        this.inTitle = inTitle;
     }
 
     @Nullable
@@ -112,7 +98,6 @@ public abstract class ApiQuery implements QueryArguments {
     @Override
     public Uri.Builder toUrlArguments(Uri.Builder builder) {
         if (keywords != null) builder.appendQueryParameter("q", keywords);
-        if (inTitle != null) builder.appendQueryParameter("qInTitle", inTitle);
         if (sources != null && sources.length != 0) builder.appendQueryParameter("sources", String.join(",", sources));
         if (language != null) builder.appendQueryParameter("language", language);
         if (pageSize != null) builder.appendQueryParameter("page_size ", pageSize.toString());
@@ -129,7 +114,6 @@ public abstract class ApiQuery implements QueryArguments {
 
     public static abstract class Builder {
         protected String keywords;
-        protected String inTitle;
         protected String[] sources;
         protected String language = defaultLanguage;
         protected Integer pageSize;
@@ -140,11 +124,6 @@ public abstract class ApiQuery implements QueryArguments {
 
         public Builder withKeywords(String keywords) {
             this.keywords = keywords;
-            return this;
-        }
-
-        public Builder withInTitle(String inTitle) {
-            this.inTitle = inTitle;
             return this;
         }
 

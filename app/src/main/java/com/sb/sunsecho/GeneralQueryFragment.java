@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.sb.sunsecho.beans.ApiQuery;
 import com.sb.sunsecho.beans.GeneralQuery;
 import com.sb.sunsecho.beans.SortBy;
@@ -31,6 +32,7 @@ public class GeneralQueryFragment extends Fragment implements ApiQueryBuildingIn
 
     private static final String SOURCES = "sources";
 
+    private TextInputEditText inTitle;
     private EditText from;
     private EditText to;
 
@@ -60,6 +62,7 @@ public class GeneralQueryFragment extends Fragment implements ApiQueryBuildingIn
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_general_query, container, false);
+        inTitle = v.findViewById(R.id.in_title);
         from = v.findViewById(R.id.from);
         to = v.findViewById(R.id.to);
         sortBy = v.findViewById(R.id.sort_by);
@@ -84,9 +87,14 @@ public class GeneralQueryFragment extends Fragment implements ApiQueryBuildingIn
     @Override
     public GeneralQuery.Builder builder() {
         return new GeneralQuery.Builder()
+                .withInTitle(getInTitle())
                 .withFrom(getFrom())
                 .withTo(getTo())
                 .withSortBy(selectedSort());
+    }
+
+    public String getInTitle() {
+        return inTitle.getText().length() != 0 ? inTitle.getText().toString() : null;
     }
 
     public Instant getFrom() {

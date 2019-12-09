@@ -8,6 +8,12 @@ import androidx.annotation.Nullable;
 
 public class GeneralQuery extends ApiQuery {
     /**
+     * Keywords or a phrase to search for in the article title and body.
+     */
+    @Nullable
+    protected String inTitle;
+
+    /**
      * A list of domains (eg bbc.co.uk, techcrunch.com, engadget.com) to restrict the search to.
      */
     @Nullable
@@ -33,13 +39,23 @@ public class GeneralQuery extends ApiQuery {
     @Nullable
     protected SortBy sortBy;
 
-    public GeneralQuery(@Nullable String keywords, @Nullable String inTitle, @Nullable String[] sources, @Nullable String language, @Nullable Integer pageSize, @Nullable Integer page, @Nullable String[] domains, @Nullable String[] excludeDomains, @Nullable Instant from, @Nullable Instant to, @Nullable SortBy sortBy) {
-        super(keywords, inTitle, sources, language, pageSize, page);
+    public GeneralQuery(@Nullable String keywords, @Nullable String[] sources, @Nullable String language, @Nullable Integer pageSize, @Nullable Integer page, @Nullable String inTitle, @Nullable String[] domains, @Nullable String[] excludeDomains, @Nullable Instant from, @Nullable Instant to, @Nullable SortBy sortBy) {
+        super(keywords, sources, language, pageSize, page);
+        this.inTitle = inTitle;
         this.domains = domains;
         this.excludeDomains = excludeDomains;
         this.from = from;
         this.to = to;
         this.sortBy = sortBy;
+    }
+
+    @Nullable
+    public String getInTitle() {
+        return inTitle;
+    }
+
+    public void setInTitle(@Nullable String inTitle) {
+        this.inTitle = inTitle;
     }
 
     @Nullable
@@ -89,6 +105,7 @@ public class GeneralQuery extends ApiQuery {
 
     @Override
     protected void completeArguments(Uri.Builder builder) {
+        if (inTitle != null) builder.appendQueryParameter("qInTitle", inTitle);
         if (domains != null && domains.length != 0) builder.appendQueryParameter("domains", String.join(",", domains));
         if (excludeDomains != null && excludeDomains.length != 0) builder.appendQueryParameter("excludeDomains", String.join(",", excludeDomains));
         if (from != null) builder.appendQueryParameter("from", from.toString());
@@ -96,14 +113,25 @@ public class GeneralQuery extends ApiQuery {
         if (sortBy != null) builder.appendQueryParameter("sortBy", sortBy.name());
     }
 
+
     public static final class Builder extends ApiQuery.Builder {
-        private String[] domains;
-        private String[] excludeDomains;
-        private Instant from;
-        private Instant to;
-        private SortBy sortBy;
+        protected String inTitle;
+        protected String[] domains;
+        protected String[] excludeDomains;
+        protected Instant from;
+        protected Instant to;
+        protected SortBy sortBy;
 
         public Builder() {
+        }
+
+        public static Builder aGeneralQuery() {
+            return new Builder();
+        }
+
+        public Builder withInTitle(String inTitle) {
+            this.inTitle = inTitle;
+            return this;
         }
 
         public Builder withDomains(String[] domains) {
@@ -131,9 +159,8 @@ public class GeneralQuery extends ApiQuery {
             return this;
         }
 
-        @Override
         public GeneralQuery build() {
-            return new GeneralQuery(keywords, inTitle, sources, language, pageSize, page, domains, excludeDomains, from, to, sortBy);
+            return new GeneralQuery(keywords, sources, language, pageSize, page, inTitle, domains, excludeDomains, from, to, sortBy);
         }
     }
 }
