@@ -1,5 +1,6 @@
 package com.sb.sunsecho;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -36,7 +37,9 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
     private static final String TAG = SearchActivity.class.getCanonicalName();
 
     public static final int REQUEST_CODE = 100;
+    public static final String QUERY = "query";
     public static final String SOURCES = "sources";
+    public static final String RESULT = "result";
 
     private static final int TOP_HEADLINES_INDEX = 0;
     private static final int EVERYTHING_INDEX = 1;
@@ -57,12 +60,17 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
     private TextInputEditText pageSize;
     private TextInputEditText page;
 
+    private ApiQuery baseQuery;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
         sources = Sources.makeSources(getIntent().getParcelableArrayExtra(SOURCES));
+        if (getIntent().getParcelableExtra(QUERY) != null) {
+            baseQuery = getIntent().getParcelableExtra(QUERY);
+        }
 
         initializeSearchTypeSpinner();
         initializeLanguageSpinner();
@@ -160,12 +168,10 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
     @Override
     public void receive(Article[] articles) {
         if (articles != null && articles.length > 0) {
-            List<Article> articleList = Arrays.asList(articles);
-            articleList.forEach(article -> System.out.println(article));
-
-            Intent i = new Intent(this, MasterActivity.class);
-            i.putExtra(MasterActivity.ARTICLES, articles);
-            startActivity(i);
+            Intent result = new Intent();
+            result.putExtra(RESULT, articles);
+            setResult(Activity.RESULT_OK, result);
+            finish();
         } else {
             new AlertDialog.Builder(this).setView(R.layout.no_result_dialog).show();
         }
