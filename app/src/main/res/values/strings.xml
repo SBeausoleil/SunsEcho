@@ -114,6 +114,7 @@
 
     <string name="article_source"><xliff:g example="Reuter" id="source_name">%s</xliff:g> at <xliff:g example="Reuter.uk" id="source_url">%s</xliff:g></string>
 
-    <string name="too_broad_query_exception_title">Too few arguments</string>
+    <string name="too_broad_query_exception_title">Too broad</string>
     <string name="too_broad_query_exception">At least one of the search query parameters that is not the language, page size or the page must be set!</string>
+    <string name="nothing_found">Your search query returned no result.</string>
 </resources>

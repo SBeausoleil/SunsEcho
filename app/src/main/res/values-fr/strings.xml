@@ -62,58 +62,59 @@
     <string name="country_code_zh">Hans</string>
 
     <string name="no_language">Langage (optionnel)</string>
-    <string name="language_code_ar">Arabic</string>
+    <string name="language_code_ar">Arabe</string>
     <string name="language_code_de">Allemand</string>
     <string name="language_code_en">Anglais</string>
     <string name="language_code_es">Espagnol</string>
     <string name="language_code_fr">Français</string>
-    <string name="language_code_he">Hebrew</string>
-    <string name="language_code_hr">Croatian</string>
-    <string name="language_code_it">Italian</string>
-    <string name="language_code_nl">Dutch</string>
-    <string name="language_code_no">Norwegian</string>
-    <string name="language_code_pt">Portuguese</string>
-    <string name="language_code_ru">Russian</string>
-    <string name="language_code_se">Northern Sami</string>
+    <string name="language_code_he">Hébreu</string>
+    <string name="language_code_hr">Croate</string>
+    <string name="language_code_it">Italien</string>
+    <string name="language_code_nl">Hollandais</string>
+    <string name="language_code_no">Norvégien</string>
+    <string name="language_code_pt">Portuguais</string>
+    <string name="language_code_ru">Russe</string>
+    <string name="language_code_se">Same du Nord</string>
     <string name="language_code_ud">Urdu</string> <!-- https://arynews.tv/ud/ has the wrong language code. This is to hide their mistake that we receive over News API. -->
     <string name="language_code_ur">Urdu</string> <!-- This is the right code for Urdu -->
     <string name="language_code_zh">Zhōngwén</string>
 
-    <string name="no_category">Category (optional)</string>
-    <string name="category_business">Business</string>
-    <string name="category_entertainment">Entertainment</string>
-    <string name="category_general">General</string>
-    <string name="category_health">Health</string>
+    <string name="no_category">Catégorie (optionnel)</string>
+    <string name="category_business">Affaires</string>
+    <string name="category_entertainment">Divertissement</string>
+    <string name="category_general">Général</string>
+    <string name="category_health">Santé</string>
     <string name="category_science">Science</string>
     <string name="category_sports">Sports</string>
-    <string name="category_technology">Technology</string>
+    <string name="category_technology">Technologie</string>
 
-    <string name="no_sort_by">Sort by (optional)</string>
-    <string name="sort_by_relevancy">Relevancy</string>
-    <string name="sort_by_popularity">Popularity</string>
-    <string name="sort_by_published_at">Most recent</string>
+    <string name="no_sort_by">Trier par (optionnel)</string>
+    <string name="sort_by_relevancy">Pertinence</string>
+    <string name="sort_by_popularity">Popularité</string>
+    <string name="sort_by_published_at">Plus récent</string>
 
-    <string name="title_activity_search">Search articles</string>
+    <string name="title_activity_search">Recherche d\'articles</string>
     <string-array name="search_types">
-        <item>Top Headlines</item>
-        <item>Everything</item>
+        <item>Grands titres</item>
+        <item>Tout</item>
     </string-array>
 
-    <string name="keywords">Keyword(s)</string>
-    <string name="in_title">In title</string>
+    <string name="keywords">Mot(s) clé(s)</string>
+    <string name="in_title">Dans le titre</string>
     <string name="sources">Sources</string>
-    <string name="excluded_sources">Excluded sources</string>
-    <string name="language">Language</string>
-    <string name="page_size">Elements per page</string>
+    <string name="excluded_sources">Sources exclus</string>
+    <string name="language">Langue</string>
+    <string name="page_size">Éléments par page</string>
     <string name="page">Page</string>
-    <string name="search">Search</string>
-    <string name="country">Country</string>
-    <string name="category">Category</string>
-    <string name="from">From</string>
-    <string name="to">To</string>
+    <string name="search">Chercher</string>
+    <string name="country">Pays</string>
+    <string name="category">Catégorie</string>
+    <string name="from">De</string>
+    <string name="to">À</string>
 
     <string name="article_source"><xliff:g example="Reuter" id="source_name">%s</xliff:g> at <xliff:g example="Reuter.uk" id="source_url">%s</xliff:g></string>
 
-    <string name="too_broad_query_exception_title">Too few arguments</string>
-    <string name="too_broad_query_exception">At least one of the search query parameters that is not the language, page size or the page must be set!</string>
+    <string name="too_broad_query_exception_title">Trop vague</string>
+    <string name="too_broad_query_exception">Au moins un parametre de recherche qui n\'est pas la langue, le nombre d\'éléments par page ou la page doit être définit!</string>
+    <string name="nothing_found">Votre recherche n\'a menée à aucun résultat.</string>
 </resources>

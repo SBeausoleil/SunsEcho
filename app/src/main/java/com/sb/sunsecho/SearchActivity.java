@@ -159,11 +159,15 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
 
     @Override
     public void receive(Article[] articles) {
-        List<Article> articleList = Arrays.asList(articles);
-        articleList.forEach(article -> System.out.println(article));
+        if (articles != null && articles.length > 0) {
+            List<Article> articleList = Arrays.asList(articles);
+            articleList.forEach(article -> System.out.println(article));
 
-        Intent i = new Intent(this, MasterActivity.class);
-        i.putExtra(MasterActivity.ARTICLES, articles);
-        startActivity(i);
+            Intent i = new Intent(this, MasterActivity.class);
+            i.putExtra(MasterActivity.ARTICLES, articles);
+            startActivity(i);
+        } else {
+            new AlertDialog.Builder(this).setView(R.layout.no_result_dialog).show();
+        }
     }
 }
