@@ -35,8 +35,12 @@ public class Article implements Parcelable {
         title = in.readString();
         description = in.readString();
         try {
-            url = new URL(in.readString());
-            image = new URL(in.readString());
+            String urlString = in.readString();
+            if (urlString != null)
+                url = new URL(urlString);
+            String imgString = in.readString();
+            if (imgString != null)
+                image = new URL(imgString);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -50,8 +54,8 @@ public class Article implements Parcelable {
         dest.writeString(author);
         dest.writeString(title);
         dest.writeString(description);
-        dest.writeString(url.toString());
-        dest.writeString(image.toString());
+        dest.writeString(url != null ? url.toString() : null);
+        dest.writeString(image != null ? image.toString() : null);
         dest.writeString(publishedAt.toString());
         dest.writeString(content);
     }

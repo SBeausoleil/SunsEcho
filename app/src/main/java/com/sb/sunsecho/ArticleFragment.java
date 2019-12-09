@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import java.time.format.DateTimeFormatter;
  * create an instance of this fragment.
  */
 public class ArticleFragment extends Fragment {
+    private static final String TAG = ArticleFragment.class.getCanonicalName();
+
     private static final String ARTICLE = "article";
 
     private Article article;
@@ -60,23 +63,6 @@ public class ArticleFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_article, container, false);
 
-        captureSubViews(v);
-        refresh();
-
-        return v;
-    }
-
-    private void refresh() {
-        title.setText(article.getTitle());
-        source.setText(getContext().getResources().getString(R.string.article_source, article.getSource().getName(), article.getSource().getUrl()));
-        author.setText(article.getAuthor());
-        publishedAt.setText(article.getPublishedAt().toString());
-        description.setText(article.getDescription());
-        new ImageFetcher((img) -> image.setImageBitmap(img)).execute(article.getImage());
-        content.setText(article.getContent());
-    }
-
-    private void captureSubViews(View v) {
         title = v.findViewById(R.id.article_title);
         source = v.findViewById(R.id.article_source);
         author = v.findViewById(R.id.article_author);
@@ -84,6 +70,39 @@ public class ArticleFragment extends Fragment {
         description = v.findViewById(R.id.article_description);
         image = v.findViewById(R.id.article_image);
         content = v.findViewById(R.id.article_content);
+
+        refresh();
+
+        return v;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+        refresh();
+    }
+
+    private void refresh() {
+        if (article != null) {
+            Log.i(TAG, title != null ? "Not null" : "NULL");
+            title.setText(article.getTitle());
+            if (article.getSource().getUrl() != null)
+                source.setText(getContext().getResources().getString(R.string.article_source, article.getSource().getName(), article.getSource().getUrl()));
+            else
+                source.setText(article.getSource().getName());
+            author.setText(article.getAuthor());
+            publishedAt.setText(article.getPublishedAt().toString());
+            description.setText(article.getDescription());
+            new ImageFetcher((img) -> image.setImageBitmap(img)).execute(article.getImage());
+            content.setText(article.getContent());
+        } else {
+            title.setText("");
+            source.setText("");
+            author.setText("");
+            publishedAt.setText("");
+            description.setText("");
+            image.setVisibility(View.INVISIBLE);
+            content.setText("");
+        }
     }
 
 }

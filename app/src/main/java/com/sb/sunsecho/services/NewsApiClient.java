@@ -99,7 +99,7 @@ public class NewsApiClient {
         try {
             URL url = new URL(query.toUrlArguments(uri.buildUpon()).build().toString());
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setRequestProperty("X-Api-Key", key);
+            connection.setRequestProperty("X-Api-Key", key); // FIXME does not work if no query filters are added
             JSONObject json = new JSONObject(fetch(connection));
             return parseArticles(json, sources);
         } catch (IOException | JSONException e) {
@@ -173,5 +173,12 @@ public class NewsApiClient {
 
         out.close();
         return new String(out.toByteArray());
+    }
+
+    @Override
+    public String toString() {
+        return "NewsApiClient{" +
+                "key='" + key + '\'' +
+                '}';
     }
 }

@@ -42,7 +42,9 @@ public class Source implements Parcelable {
         name = in.readString();
         description = in.readString();
         try {
-            url = new URL(in.readString());
+            String urlString = in.readString();
+            if (urlString != null)
+                url = new URL(urlString);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -56,7 +58,7 @@ public class Source implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeString(url.toString());
+        dest.writeString(url != null ? url.toString() : null);
         dest.writeParcelable(category, 0);
         dest.writeString(language);
         dest.writeString(country);

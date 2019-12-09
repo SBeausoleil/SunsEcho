@@ -1,5 +1,6 @@
 package com.sb.sunsecho;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -158,5 +159,10 @@ public class SearchActivity extends AppCompatActivity implements ArticlesReceive
     public void receive(Article[] articles) {
         List<Article> articleList = Arrays.asList(articles);
         articleList.forEach(article -> System.out.println(article));
+
+        Intent i = new Intent(this, MasterActivity.class);
+        i.putExtra(MasterActivity.ARTICLES, articles);
+        startActivity(i);
+        finish();
     }
 }

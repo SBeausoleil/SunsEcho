@@ -1,6 +1,7 @@
 package com.sb.sunsecho.services;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.sb.sunsecho.ArticlesReceiver;
 import com.sb.sunsecho.beans.Article;
