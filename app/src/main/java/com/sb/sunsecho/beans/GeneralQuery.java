@@ -106,11 +106,12 @@ public class GeneralQuery extends ApiQuery {
     @Override
     protected boolean isChildArgumentsNull() {
         return inTitle == null
-                && (domains == null || domains.length == 0)
+                && (domains == null || domains.length == 0);
+        /* The following are not one of the needed arguments to avoid a too broad exception
                 && (excludeDomains == null || excludeDomains.length == 0)
                 && from == null
                 && to == null
-                && sortBy == null;
+                && sortBy == null;*/
     }
 
     @Override

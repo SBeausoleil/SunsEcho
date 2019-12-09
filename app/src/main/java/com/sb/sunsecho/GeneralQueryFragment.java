@@ -1,9 +1,7 @@
 package com.sb.sunsecho;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.sb.sunsecho.beans.ApiQuery;
 import com.sb.sunsecho.beans.GeneralQuery;
 import com.sb.sunsecho.beans.SortBy;
 import com.sb.sunsecho.beans.Source;
@@ -23,17 +20,25 @@ import com.sb.sunsecho.utils.Sources;
 import com.sb.sunsecho.utils.Spinners;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+
+import androidx.fragment.app.Fragment;
 
 public class GeneralQueryFragment extends Fragment implements ApiQueryBuildingInterface<GeneralQuery> {
+    private static final String TAG = GeneralQueryFragment.class.getCanonicalName();
 
     private static final String SOURCES = "sources";
 
     private TextInputEditText inTitle;
+
+    private Instant fromInstant;
     private EditText from;
+
+    private Instant toInstant;
     private EditText to;
 
     private LinkedHashMap<String, SortBy> localizedSortBy;
@@ -67,6 +72,22 @@ public class GeneralQueryFragment extends Fragment implements ApiQueryBuildingIn
         to = v.findViewById(R.id.to);
         sortBy = v.findViewById(R.id.sort_by);
 
+        from.setOnClickListener((view) -> {
+            DatePickerFragment picker = new DatePickerFragment(fromInstant, (instant -> {
+                fromInstant = instant;
+                from.setText(instant.atZone(ZoneId.systemDefault()).toLocalDate().toString());
+            }));
+            picker.show(getActivity().getSupportFragmentManager(), "FROM");
+        });
+
+        to.setOnClickListener((view) -> {
+            DatePickerFragment picker = new DatePickerFragment(toInstant, (instant -> {
+                toInstant = instant;
+                to.setText(instant.atZone(ZoneId.systemDefault()).toLocalDate().toString());
+            }));
+            picker.show(getActivity().getSupportFragmentManager(), "TO");
+        });
+
         initializeSortBy();
         return v;
     }
@@ -98,11 +119,11 @@ public class GeneralQueryFragment extends Fragment implements ApiQueryBuildingIn
     }
 
     public Instant getFrom() {
-        return from.getText().length() != 0 ? Instant.parse(from.getText().toString()) : null;
+        return from.getText().length() != 0 ? LocalDate.parse(from.getText()).atStartOfDay(ZoneId.systemDefault()).toInstant() : null;
     }
 
     public Instant getTo() {
-        return to.getText().length() != 0 ? Instant.parse(to.getText().toString()) : null;
+        return to.getText().length() != 0 ?  LocalDate.parse(to.getText()).atStartOfDay(ZoneId.systemDefault()).toInstant() : null;
     }
 
     @Override

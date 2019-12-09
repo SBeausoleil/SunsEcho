@@ -38,9 +38,11 @@ public class TopHeadlinesFetcher extends AsyncTask<TopHeadlinesQuery, Void, Asyn
 
     @Override
     protected void onPostExecute(AsyncResult<Article[]> articles) {
-        if (articles.hasException())
+        if (articles.hasException() && articles.getException() instanceof TooBroadQueryException)
             catcher.accept((TooBroadQueryException) articles.getException());
-        else
+        else if (articles.hasException()) {
+            throw new RuntimeException(articles.getException());
+        } else
             receiver.receive(articles.getValue());
     }
 

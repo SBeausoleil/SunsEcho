@@ -88,7 +88,7 @@ public class ArticleFragment extends Fragment {
                 source.setText(getContext().getResources().getString(R.string.article_source, article.getSource().getName(), article.getSource().getUrl()));
             else
                 source.setText(article.getSource().getName());
-            author.setText(article.getAuthor());
+            author.setText(article.getAuthor() != null ? article.getAuthor() : "");
             publishedAt.setText(article.getPublishedAt().toString());
             description.setText(article.getDescription());
             new ImageFetcher((img) -> image.setImageBitmap(img)).execute(article.getImage());

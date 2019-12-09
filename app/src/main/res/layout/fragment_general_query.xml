@@ -29,7 +29,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/from"
-            android:inputType="date" />
+            android:inputType="date"
+            android:focusableInTouchMode="false" />
 
         <EditText
             android:id="@+id/to"
@@ -38,7 +39,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/to"
-            android:inputType="date" />
+            android:inputType="date"
+            android:focusableInTouchMode="false" />
     </LinearLayout>
 
     <Spinner

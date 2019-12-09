@@ -19,8 +19,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         NewsApiClient client = new NewsApiClient("1eca1ab431204ff19952f3a874e32f1c");
-        SourceFetcher fetcher = new SourceFetcher(client, this::afterReceivingSources);
-        fetcher.execute();
+        //SourceFetcher fetcher = new SourceFetcher(client, this::afterReceivingSources);
+        //fetcher.execute();
+
+        afterReceivingSources(new Source[0]);
     }
 
     private void afterReceivingSources(Source[] received) {
