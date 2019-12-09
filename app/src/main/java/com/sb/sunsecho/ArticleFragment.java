@@ -39,6 +39,7 @@ public class ArticleFragment extends Fragment {
     private TextView description;
     private ImageView image;
     private TextView content;
+    private ImageView openInBrowser;
 
     public ArticleFragment() {
     }
@@ -70,6 +71,7 @@ public class ArticleFragment extends Fragment {
         description = v.findViewById(R.id.article_description);
         image = v.findViewById(R.id.article_image);
         content = v.findViewById(R.id.article_content);
+        openInBrowser = v.findViewById(R.id.open_in_browser);
 
         refresh();
 
@@ -88,21 +90,27 @@ public class ArticleFragment extends Fragment {
                 source.setText(getContext().getResources().getString(R.string.article_source, article.getSource().getName(), article.getSource().getUrl()));
             else
                 source.setText(article.getSource().getName());
-            author.setText(article.getAuthor() != null ? article.getAuthor() : "");
+            author.setText(article.getAuthor() != null || !article.getAuthor().equalsIgnoreCase("null") ? article.getAuthor() : "");
             publishedAt.setText(article.getPublishedAt().toString());
             description.setText(article.getDescription());
             new ImageFetcher((img) -> image.setImageBitmap(img)).execute(article.getImage());
             content.setText(article.getContent());
 
+
             if (article.getUrl() != null) {
-                source.setOnClickListener((v -> {
+                View.OnClickListener onClickListener = (v -> {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, article.getUrl());
                     getActivity().startActivity(browserIntent);
-                }));
+                });
+                source.setOnClickListener(onClickListener);
+                openInBrowser.setOnClickListener(onClickListener);
                 String text = source.getText().toString();
                 SpannableString span = new SpannableString(text);
                 span.setSpan(new UnderlineSpan(), 0, text.length(), 0);
                 source.setText(span);
+                openInBrowser.setVisibility(View.VISIBLE);
+            } else {
+                openInBrowser.setVisibility(View.INVISIBLE);
             }
         } else {
             title.setText("");
