@@ -1,0 +1,119 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Écho Solaire</string>
+
+    <string name="no_country">Pays (Optionnel)</string>
+    <string name="country_code_ae">Émirats arabes unis</string>
+    <string name="country_code_ar">Argentine</string>
+    <string name="country_code_at">Autriche</string>
+    <string name="country_code_au">Australie</string>
+    <string name="country_code_be">Belgique</string>
+    <string name="country_code_bg">Bulgarie</string>
+    <string name="country_code_br">Brésil</string>
+    <string name="country_code_ca">Canada</string>
+    <string name="country_code_ch">Suisse</string>
+    <string name="country_code_cn">Chine</string>
+    <string name="country_code_co">Colombie</string>
+    <string name="country_code_cu">Cuba</string>
+    <string name="country_code_cz">République tchèque</string>
+    <string name="country_code_de">Allemagne</string>
+    <string name="country_code_eg">Égypte</string>
+    <string name="country_code_es">Espagne</string>
+    <string name="country_code_fr">France</string>
+    <string name="country_code_gb">Royaume-Unis</string>
+    <string name="country_code_gr">Grèce</string>
+    <string name="country_code_hk">Hong Kong</string>
+    <string name="country_code_hu">Hongrie</string>
+    <string name="country_code_id">Indonésie</string>
+    <string name="country_code_ie">Irlande</string>
+    <string name="country_code_il">Israel</string>
+    <string name="country_code_in">Inde</string>
+    <string name="country_code_is">Islande</string>
+    <string name="country_code_it">Italie</string>
+    <string name="country_code_jp">Japon</string>
+    <string name="country_code_kr">Corée du sud</string>
+    <string name="country_code_lt">Lithuanie</string>
+    <string name="country_code_lv">Latvie</string>
+    <string name="country_code_ma">Maroc</string>
+    <string name="country_code_mx">Mexic</string>
+    <string name="country_code_my">Malaisie</string>
+    <string name="country_code_ng">Niger</string>
+    <string name="country_code_nl">Pays-bas</string>
+    <string name="country_code_no">Norvège</string>
+    <string name="country_code_nz">Nouvelle Zélande</string>
+    <string name="country_code_ph">Philippines</string>
+    <string name="country_code_pk">Pakistan</string>
+    <string name="country_code_pl">Pologne</string>
+    <string name="country_code_pt">Portugal</string>
+    <string name="country_code_ro">Romanie</string>
+    <string name="country_code_rs">Serbie</string>
+    <string name="country_code_ru">Russie</string>
+    <string name="country_code_sa">Arabie Saoudite</string>
+    <string name="country_code_se">Suède</string>
+    <string name="country_code_sg">Singapour</string>
+    <string name="country_code_si">Slovenie</string>
+    <string name="country_code_sk">Slovakie</string>
+    <string name="country_code_th">Thaïland</string>
+    <string name="country_code_tr">Turquie</string>
+    <string name="country_code_tw">Taïwan</string>
+    <string name="country_code_ua">Ukraine</string>
+    <string name="country_code_us">États-Unis</string>
+    <string name="country_code_ve">Vénézuela</string>
+    <string name="country_code_za">Afrique du Sud</string>
+    <string name="country_code_zh">Hans</string>
+
+    <string name="no_language">Langage (optionnel)</string>
+    <string name="language_code_ar">Arabic</string>
+    <string name="language_code_de">Allemand</string>
+    <string name="language_code_en">Anglais</string>
+    <string name="language_code_es">Espagnol</string>
+    <string name="language_code_fr">Français</string>
+    <string name="language_code_he">Hebrew</string>
+    <string name="language_code_hr">Croatian</string>
+    <string name="language_code_it">Italian</string>
+    <string name="language_code_nl">Dutch</string>
+    <string name="language_code_no">Norwegian</string>
+    <string name="language_code_pt">Portuguese</string>
+    <string name="language_code_ru">Russian</string>
+    <string name="language_code_se">Northern Sami</string>
+    <string name="language_code_ud">Urdu</string> <!-- https://arynews.tv/ud/ has the wrong language code. This is to hide their mistake that we receive over News API. -->
+    <string name="language_code_ur">Urdu</string> <!-- This is the right code for Urdu -->
+    <string name="language_code_zh">Zhōngwén</string>
+
+    <string name="no_category">Category (optional)</string>
+    <string name="category_business">Business</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_general">General</string>
+    <string name="category_health">Health</string>
+    <string name="category_science">Science</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_technology">Technology</string>
+
+    <string name="no_sort_by">Sort by (optional)</string>
+    <string name="sort_by_relevancy">Relevancy</string>
+    <string name="sort_by_popularity">Popularity</string>
+    <string name="sort_by_published_at">Most recent</string>
+
+    <string name="title_activity_search">Search articles</string>
+    <string-array name="search_types">
+        <item>Top Headlines</item>
+        <item>Everything</item>
+    </string-array>
+
+    <string name="keywords">Keyword(s)</string>
+    <string name="in_title">In title</string>
+    <string name="sources">Sources</string>
+    <string name="excluded_sources">Excluded sources</string>
+    <string name="language">Language</string>
+    <string name="page_size">Elements per page</string>
+    <string name="page">Page</string>
+    <string name="search">Search</string>
+    <string name="country">Country</string>
+    <string name="category">Category</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+
+    <string name="article_source"><xliff:g example="Reuter" id="source_name">%s</xliff:g> at <xliff:g example="Reuter.uk" id="source_url">%s</xliff:g></string>
+
+    <string name="too_broad_query_exception_title">Too few arguments</string>
+    <string name="too_broad_query_exception">At least one of the search query parameters that is not the language, page size or the page must be set!</string>
+</resources>
